@@ -13,7 +13,24 @@ AAS_API_URL = os.environ.get(
 )
 AAS_API_KEY = os.environ.get(
     "AAS_API_KEY",
-    "sk-RwjM_ttkgTft0wfm0fS2feVdcYyJPmAoupCGAVOuj5w"
+    "{
+  "mcpServers": {
+    "lf-lf_proj_09217e0ec4e6": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "uvx",
+        "mcp-proxy",
+        "--transport",
+        "streamablehttp",
+        "--headers",
+        "x-api-key",
+        "sk-Mit5c-K9mFrtEmGgOMQEtrvex76CF37mRAMXpHibf0Q",
+        "https://aas-workflow-engine.servicesessentials.ibm.com/api/v1/mcp/project/219df1e6-2461-4230-987f-f7c0e4291bbd/streamable"
+      ]
+    }
+  }
+}"
 )
 
 class EligibilityHandler(http.server.SimpleHTTPRequestHandler):
