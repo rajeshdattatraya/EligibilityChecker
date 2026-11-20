@@ -70,7 +70,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-title">Care & Support Eligibility Checker - In the app.py line 73</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Care & Support Eligibility Checker </div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-title">Assess applicant eligibility using the automated Agentic Workflow Engine</div>', unsafe_allow_html=True)
 
 def check_eligibility(name: str, age: int, country: str, hours_of_care: int, api_url: str, api_key: str):
@@ -127,7 +127,7 @@ with st.form("eligibility_form"):
     col1, col2 = st.columns(2)
     
     with col1:
-        name = st.text_input("Name", value="Rajesh", placeholder="Enter applicant name")
+        name = st.text_input("Name", value="John", placeholder="Enter applicant name")
         country = st.selectbox(
             "Country",
             options=["Scotland", "England", "Wales", "Northern Ireland", "Other"],
