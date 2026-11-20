@@ -5,7 +5,7 @@ import urllib.error
 import streamlit as st
 
 st.set_page_config(
-    page_title="Eligibility Assessment Portal",
+    page_title="Eligibility Assessment Portal_Raj",
     page_icon="📋",
     layout="centered"
 )
