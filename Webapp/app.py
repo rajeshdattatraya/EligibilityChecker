@@ -12,7 +12,7 @@ st.set_page_config(
 
 # Configuration for MCP / Workflow Engine
 DEFAULT_API_URL = "https://aas-workflow-engine.servicesessentials.ibm.com/api/v1/run/3ae4fcef-7ec8-4269-8e10-319e1430ebb0"
-DEFAULT_API_KEY = os.environ.get("AAS_API_KEY", "sk-CUBtKzd5jKPEqQ2OIsnY2tJ0us5rpw1BxWrjzA1-vf4")
+DEFAULT_API_KEY = os.environ.get("AAS_API_KEY", "sk-dRICQeBpfCB2rTq7ISy60CZ1Y-41L4wgpBg9O12R-FM")
 
 st.markdown("""
 <style>
