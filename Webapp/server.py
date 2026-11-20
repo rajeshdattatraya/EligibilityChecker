@@ -13,7 +13,7 @@ AAS_API_URL = os.environ.get(
 )
 AAS_API_KEY = os.environ.get(
     "AAS_API_KEY",
-    "sk-CUBtKzd5jKPEqQ2OIsnY2tJ0us5rpw1BxWrjzA1-vf4"
+    "sk-dRICQeBpfCB2rTq7ISy60CZ1Y-41L4wgpBg9O12R-FM"
 )
 
 class EligibilityHandler(http.server.SimpleHTTPRequestHandler):
