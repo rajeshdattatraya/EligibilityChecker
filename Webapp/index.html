@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care & Support Eligibility Checker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fb;
+            color: #1f2328;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 540px;
+            padding: 32px;
+        }
+
+        .header {
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: #0f62fe;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #57606a;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #0f62fe;
+            box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f62fe;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0353e9;
+        }
+
+        button:disabled {
+            background-color: #8cb4f5;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 24px;
+            padding: 18px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-box.eligible {
+            background-color: #defbe6 !important;
+            border: 1px solid #24a148 !important;
+            display: block !important;
+        }
+
+        .result-box.ineligible {
+            background-color: #fff1f1 !important;
+            border: 1px solid #da1e28 !important;
+            display: block !important;
+        }
+
+        .result-box.error {
+            background-color: #fff8e1 !important;
+            border: 1px solid #ff8f00 !important;
+            display: block !important;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .status-badge.eligible {
+            background-color: #24a148;
+        }
+
+        .status-badge.ineligible {
+            background-color: #da1e28;
+        }
+
+        .status-badge.error {
+            background-color: #ff8f00;
+        }
+
+        .result-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #1f2328;
+            font-weight: 500;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>Care & Support Eligibility</h1>
+        <p>Enter applicant details to evaluate eligibility via the MCP Agentic Workflow.</p>
+    </div>
+
+    <form id="eligibilityForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="Rajesh" required placeholder="e.g. Rajesh">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="30" min="0" max="120" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select id="country" name="country">
+                    <option value="Scotland" selected>Scotland</option>
+                    <option value="England">England</option>
+                    <option value="Wales">Wales</option>
+                    <option value="Northern Ireland">Northern Ireland</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hours">Hours of Care</label>
+                <input type="number" id="hours" name="hours" value="45" min="0" max="168" required>
+            </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Check Eligibility</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+        <div id="statusBadge" class="status-badge"></div>
+        <div id="resultMessage" class="result-message"></div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('eligibilityForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultBox = document.getElementById('resultBox');
+    const statusBadge = document.getElementById('statusBadge');
+    const resultMessage = document.getElementById('resultMessage');
+
+    const DIRECT_API_URL = "https://aas-workflow-engine.servicesessentials.ibm.com/api/v1/run/3ae4fcef-7ec8-4269-8e10-319e1430ebb0";
+    const DIRECT_API_KEY = "sk-CUBtKzd5jKPEqQ2OIsnY2tJ0us5rpw1BxWrjzA1-vf4";
+
+    function showResult(type, badgeText, messageText) {
+        resultBox.style.display = 'block';
+        resultBox.className = 'result-box ' + type;
+        statusBadge.className = 'status-badge ' + type;
+        statusBadge.innerText = badgeText;
+        resultMessage.innerText = messageText;
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const age = document.getElementById('age').value;
+        const country = document.getElementById('country').value;
+        const hours = document.getElementById('hours').value;
+
+        if (!name) {
+            alert('Please enter a name');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span>Evaluating...';
+        resultBox.style.display = 'none';
+
+        try {
+            let text = "";
+            let success = false;
+
+            // 1. Try local backend server first
+            try {
+                const response = await fetch('/api/check-eligibility', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, age: Number(age), country, hours: Number(hours) })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        text = data.message || '';
+                        success = true;
+                    }
+                }
+            } catch (localErr) {
+                console.warn('Local proxy unavailable, attempting direct workflow call...', localErr);
+            }
+
+            // 2. Direct API fallback if local proxy not running
+            if (!success) {
+                const directResp = await fetch(DIRECT_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'x-api-key': DIRECT_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        input_value: `${name},${age},${country},${hours}`,
+                        output_type: 'chat',
+                        input_type: 'chat'
+                    })
+                });
+
+                const directData = await directResp.json();
+                try {
+                    const outputs = directData.outputs || [];
+                    if (outputs.length > 0) {
+                        const firstOut = outputs[0].outputs || [];
+                        if (firstOut.length > 0) {
+                            const msgs = firstOut[0].messages || [];
+                            if (msgs.length > 0 && msgs[0].message) {
+                                text = msgs[0].message;
+                            } else {
+                                text = firstOut[0].results?.message?.data?.text || JSON.stringify(directData);
+                            }
+                        }
+                    }
+                } catch (parseErr) {
+                    text = JSON.stringify(directData);
+                }
+                success = true;
+            }
+
+            if (success && text) {
+                const lower = text.toLowerCase();
+                const isEligible = lower.includes('eligible') && 
+                                   !lower.includes('not eligible') && 
+                                   !lower.includes('ineligible');
+
+                if (isEligible) {
+                    showResult('eligible', 'ELIGIBLE', text);
+                } else {
+                    showResult('ineligible', 'NOT ELIGIBLE', text);
+                }
+            } else {
+                showResult('error', 'ERROR', 'Could not obtain assessment from the eligibility agent.');
+            }
+        } catch (err) {
+            showResult('error', 'CONNECTION ERROR', 'Error connecting to eligibility service: ' + err.message + '\n\nMake sure the local server is running:\nuv run python server.py\nand open http://127.0.0.1:8501');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Check Eligibility';
+        }
+    });
+</script>
+
+</body>
+</html>
